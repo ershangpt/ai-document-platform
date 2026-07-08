@@ -2,12 +2,13 @@ package com.shan.aidoc.userservice.controller;
 
 import com.fasterxml.jackson.databind.util.JSONPObject;
 
+import com.shan.aidoc.userservice.dto.CreateUserRequest;
 import com.shan.aidoc.userservice.dto.HealthResponse;
 import com.shan.aidoc.userservice.dto.InfoResponse;
+import com.shan.aidoc.userservice.entity.User;
 import com.shan.aidoc.userservice.service.HealthService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.Map;
 
 import java.util.Objects;

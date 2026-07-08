@@ -1,0 +1,29 @@
+package com.shan.aidoc.userservice.service;
+
+import com.shan.aidoc.userservice.dto.CreateUserRequest;
+import com.shan.aidoc.userservice.entity.User;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+@Service
+public class UserService {
+
+    private final List<User> users = new ArrayList<>();
+
+    public User createUser(CreateUserRequest request) {
+
+        User user = new User(
+                UUID.randomUUID(),
+                request.firstName(),
+                request.lastName(),
+                request.email()
+        );
+
+        users.add(user);
+
+        return user;
+    }
+}
