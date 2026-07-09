@@ -1,5 +1,5 @@
 # Maven
-target/
+backend/user-service/target/
 
 # IntelliJ
 .idea/
