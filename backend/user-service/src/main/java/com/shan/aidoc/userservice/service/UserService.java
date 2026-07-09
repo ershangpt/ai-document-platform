@@ -2,6 +2,7 @@ package com.shan.aidoc.userservice.service;
 
 import com.shan.aidoc.userservice.dto.CreateUserRequest;
 import com.shan.aidoc.userservice.entity.User;
+import com.shan.aidoc.userservice.exception.UserNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -36,5 +37,27 @@ public class UserService {
         return users.stream()
                 .filter(user -> user.id().equals(id))
                 .findFirst();
+    }
+
+    public User updateUser(UUID id, CreateUserRequest request) {
+        User userX = getUserById(id).orElseThrow(() ->
+                new UserNotFoundException("User with id " + id + " not found"));
+
+        User user = new User(
+                id,
+                request.firstName(),
+                request.lastName(),
+                request.email()
+        );
+        int index = users.indexOf(userX);
+        users.set(index, user);
+        return user;
+    }
+
+    public User deleteUser(UUID id) {
+        User userX = getUserById(id).orElseThrow(() ->
+                new UserNotFoundException("User with id " + id + " not found"));
+        users.remove(userX);
+        return userX;
     }
 }
