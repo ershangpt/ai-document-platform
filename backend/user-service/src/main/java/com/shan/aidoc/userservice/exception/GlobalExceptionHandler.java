@@ -1,6 +1,5 @@
-package com.shan.aidoc.userservice.controller;
+package com.shan.aidoc.userservice.exception;
 
-import com.shan.aidoc.userservice.exception.ApiErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -16,7 +15,7 @@ public class GlobalExceptionHandler {
 
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ApiErrorResponse> handleException (MethodArgumentNotValidException exception) {
+    public ResponseEntity<ApiErrorResponse> handleMethodArgumentNotValidException (MethodArgumentNotValidException exception) {
         List<String> errors = exception
                 .getBindingResult()
                 .getFieldErrors()
