@@ -40,7 +40,7 @@ public class UserService {
     }
 
     public User updateUser(UUID id, CreateUserRequest request) {
-        User userX = getUserById(id).orElseThrow(() ->
+        User existingUser = getUserById(id).orElseThrow(() ->
                 new UserNotFoundException("User with id " + id + " not found"));
 
         User user = new User(
@@ -49,15 +49,15 @@ public class UserService {
                 request.lastName(),
                 request.email()
         );
-        int index = users.indexOf(userX);
+        int index = users.indexOf(existingUser);
         users.set(index, user);
         return user;
     }
 
     public User deleteUser(UUID id) {
-        User userX = getUserById(id).orElseThrow(() ->
+        User existingUser = getUserById(id).orElseThrow(() ->
                 new UserNotFoundException("User with id " + id + " not found"));
-        users.remove(userX);
-        return userX;
+        users.remove(existingUser);
+        return existingUser;
     }
 }

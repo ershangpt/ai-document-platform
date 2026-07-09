@@ -45,13 +45,13 @@ public class UserController {
     public ResponseEntity<User> updateUser(@PathVariable UUID id, @Valid @RequestBody CreateUserRequest request) {
         User user = userService.updateUser(id, request);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(user);
+        return ResponseEntity.ok(user);
     }
 
     @DeleteMapping("/users/{id}")
     public ResponseEntity<User> deleteUser(@PathVariable UUID id) {
         User user = userService.deleteUser(id);
 
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(user);
+        return ResponseEntity.noContent().build();
     }
 }
