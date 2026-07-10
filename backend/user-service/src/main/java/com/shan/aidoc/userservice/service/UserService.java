@@ -54,10 +54,9 @@ public class UserService {
         return user;
     }
 
-    public User deleteUser(UUID id) {
+    public void deleteUser(UUID id) {
         User existingUser = getUserById(id).orElseThrow(() ->
                 new UserNotFoundException("User with id " + id + " not found"));
         users.remove(existingUser);
-        return existingUser;
     }
 }
