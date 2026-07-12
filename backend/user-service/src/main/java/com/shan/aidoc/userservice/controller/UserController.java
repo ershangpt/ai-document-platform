@@ -1,6 +1,7 @@
 package com.shan.aidoc.userservice.controller;
 
 import com.shan.aidoc.userservice.dto.CreateUserRequest;
+import com.shan.aidoc.userservice.dto.UpdateUserRequest;
 import com.shan.aidoc.userservice.dto.UserResponse;
 import com.shan.aidoc.userservice.service.UserService;
 import jakarta.validation.Valid;
@@ -42,7 +43,7 @@ public class UserController {
     }
 
     @PutMapping("/users/{id}")
-    public ResponseEntity<UserResponse> updateUser(@PathVariable UUID id, @Valid @RequestBody CreateUserRequest request) {
+    public ResponseEntity<UserResponse> updateUser(@PathVariable UUID id, @Valid @RequestBody UpdateUserRequest request) {
         UserResponse user = userService.updateUser(id, request);
 
         return ResponseEntity.ok(user);

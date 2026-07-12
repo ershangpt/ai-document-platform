@@ -1,6 +1,7 @@
 package com.shan.aidoc.userservice.service;
 
 import com.shan.aidoc.userservice.dto.CreateUserRequest;
+import com.shan.aidoc.userservice.dto.UpdateUserRequest;
 import com.shan.aidoc.userservice.dto.UserResponse;
 import com.shan.aidoc.userservice.entity.User;
 import com.shan.aidoc.userservice.exception.UserNotFoundException;
@@ -44,7 +45,7 @@ public class UserService {
         return toResponse(userResp);
     }
 
-    public UserResponse updateUser(UUID id, CreateUserRequest request) {
+    public UserResponse updateUser(UUID id, UpdateUserRequest request) {
         User existingUser = userRepository.findById(id)
                 .orElseThrow(() ->
                         new UserNotFoundException("User with id " + id + " not found"));
