@@ -1,7 +1,7 @@
 package com.shan.aidoc.userservice.controller;
 
 import com.shan.aidoc.userservice.dto.CreateUserRequest;
-import com.shan.aidoc.userservice.entity.User;
+import com.shan.aidoc.userservice.dto.UserResponse;
 import com.shan.aidoc.userservice.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -22,28 +22,30 @@ public class UserController {
     }
 
     @PostMapping("/users")
-    public ResponseEntity<User> createUser(@Valid @RequestBody CreateUserRequest request) {
-        User user = userService.createUser(request);
+    public ResponseEntity<UserResponse> createUser(@Valid @RequestBody CreateUserRequest request) {
+        UserResponse user = userService.createUser(request);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
 
     @GetMapping("/users")
-    public List<User> getAllUsers() {
-        return userService.getAllUsers();
+    public ResponseEntity<List<UserResponse>> getAllUsers() {
+        List<UserResponse> users = userService.getAllUsers();
+
+        return ResponseEntity.status(HttpStatus.OK).body(users);
     }
 
     @GetMapping("/users/{id}")
-    public ResponseEntity<User> getUser(@PathVariable UUID id) {
+        public ResponseEntity<UserResponse> getUser(@PathVariable UUID id) {
 
-        return userService.getUserById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        UserResponse user = userService.getUserById(id);
+
+        return ResponseEntity.status(HttpStatus.OK).body(user);
     }
 
     @PutMapping("/users/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable UUID id, @Valid @RequestBody CreateUserRequest request) {
-        User user = userService.updateUser(id, request);
+    public ResponseEntity<UserResponse> updateUser(@PathVariable UUID id, @Valid @RequestBody CreateUserRequest request) {
+        UserResponse user = userService.updateUser(id, request);
 
         return ResponseEntity.ok(user);
     }
