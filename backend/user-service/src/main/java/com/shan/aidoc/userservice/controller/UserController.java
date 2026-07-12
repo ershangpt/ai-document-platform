@@ -29,18 +29,16 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    public ResponseEntity<List<UserResponse>> getAllUsers() {
-        List<UserResponse> users = userService.getAllUsers();
-
-        return ResponseEntity.status(HttpStatus.OK).body(users);
+    public List<UserResponse> getAllUsers() {
+        return userService.getAllUsers();
     }
 
     @GetMapping("/users/{id}")
-        public ResponseEntity<UserResponse> getUser(@PathVariable UUID id) {
+    public ResponseEntity<UserResponse> getUser(@PathVariable UUID id) {
 
         UserResponse user = userService.getUserById(id);
 
-        return ResponseEntity.status(HttpStatus.OK).body(user);
+        return ResponseEntity.ok(user);
     }
 
     @PutMapping("/users/{id}")
