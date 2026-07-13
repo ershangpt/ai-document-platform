@@ -5,6 +5,8 @@ import com.shan.aidoc.userservice.dto.UpdateUserRequest;
 import com.shan.aidoc.userservice.dto.UserResponse;
 import com.shan.aidoc.userservice.service.UserService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,8 +32,8 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    public List<UserResponse> getAllUsers() {
-        return userService.getAllUsers();
+    public Page<UserResponse> getAllUsers(Pageable pageable) {
+        return userService.getAllUsers(pageable);
     }
 
     @GetMapping("/users/{id}")
@@ -54,5 +56,15 @@ public class UserController {
         userService.deleteUser(id);
 
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/users/search/email")
+    public Page<UserResponse> searchByEmail(@RequestParam String email, Pageable pageable) {
+        return userService.searchByEmail(email, pageable);
+    }
+
+    @GetMapping("/users/search/name")
+    public Page<UserResponse> searchByName(@RequestParam String firstName, Pageable pageable) {
+        return userService.searchByFirstName(firstName, pageable);
     }
 }

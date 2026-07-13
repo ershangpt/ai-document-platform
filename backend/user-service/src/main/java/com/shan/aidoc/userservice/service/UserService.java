@@ -4,8 +4,11 @@ import com.shan.aidoc.userservice.dto.CreateUserRequest;
 import com.shan.aidoc.userservice.dto.UpdateUserRequest;
 import com.shan.aidoc.userservice.dto.UserResponse;
 import com.shan.aidoc.userservice.entity.User;
+import com.shan.aidoc.userservice.exception.DuplicateUserException;
 import com.shan.aidoc.userservice.exception.UserNotFoundException;
 import com.shan.aidoc.userservice.repository.UserRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +24,10 @@ public class UserService {
     }
 
     public UserResponse createUser(CreateUserRequest request) {
+        if(userRepository.existsByEmail(request.email())) {
+            throw new DuplicateUserException("Email already exists");
+        }
+
         User user = new User(
                 UUID.randomUUID(),
                 request.firstName(),
@@ -32,10 +39,10 @@ public class UserService {
         return toResponse(savedUser);
     }
 
-    public List<UserResponse> getAllUsers() {
-        List<User> users = userRepository.findAll();
+    public Page<UserResponse> getAllUsers(Pageable pageable) {
+        Page<User> users = userRepository.findAll(pageable);
 
-        return users.stream().map(this::toResponse).toList();
+        return users.map(this::toResponse);
     }
 
     public UserResponse getUserById(UUID id) {
@@ -49,6 +56,12 @@ public class UserService {
         User existingUser = userRepository.findById(id)
                 .orElseThrow(() ->
                         new UserNotFoundException("User with id " + id + " not found"));
+
+        if(!existingUser.getEmail().equalsIgnoreCase(request.email())) {
+            if(userRepository.existsByEmail(request.email())) {
+                throw new DuplicateUserException("Email already exists");
+            }
+        }
 
         existingUser.setFirstName(request.firstName());
         existingUser.setLastName(request.lastName());
@@ -74,5 +87,17 @@ public class UserService {
                 user.getLastName(),
                 user.getEmail()
         );
+    }
+
+    public Page<UserResponse> searchByEmail(String email, Pageable pageable) {
+        Page<User> users = userRepository.findByEmailContainingIgnoreCase(email, pageable);
+
+        return users.map(this::toResponse);
+    }
+
+    public Page<UserResponse> searchByFirstName(String firstName, Pageable pageable) {
+        Page<User> users = userRepository.findByFirstNameContainingIgnoreCase(firstName, pageable);
+
+        return users.map(this::toResponse);
     }
 }
