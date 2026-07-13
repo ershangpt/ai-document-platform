@@ -59,8 +59,8 @@ public class UserController {
     }
 
     @GetMapping("/users/search/email")
-    public Page<UserResponse> searchByEmail(@RequestParam String email, Pageable pageable) {
-        return userService.searchByEmail(email, pageable);
+    public UserResponse searchByEmail(@RequestParam String email) {
+        return userService.searchByEmail(email);
     }
 
     @GetMapping("/users/search/name")

@@ -89,10 +89,10 @@ public class UserService {
         );
     }
 
-    public Page<UserResponse> searchByEmail(String email, Pageable pageable) {
-        Page<User> users = userRepository.findByEmailContainingIgnoreCase(email, pageable);
-
-        return users.map(this::toResponse);
+    public UserResponse searchByEmail(String email) {
+        User user = userRepository.findByEmailIgnoreCase(email)
+                .orElseThrow(() -> new UserNotFoundException("User with email " + email + " not found"));
+        return toResponse(user);
     }
 
     public Page<UserResponse> searchByFirstName(String firstName, Pageable pageable) {
