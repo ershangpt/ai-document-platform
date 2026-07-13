@@ -20,8 +20,7 @@ public class Document {
     private String content;
     private UUID userId;
 
-    @CreatedDate // 👈 Automatically populates on save()
-    @Column(name = "created_at", nullable = false, updatable = false) // 👈 Prevents modification on updates
+    @CreatedDate
     private LocalDateTime createdAt;
 
     protected Document(){}

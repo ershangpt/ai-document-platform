@@ -26,7 +26,7 @@ public class DocumentService {
     }
 
     public DocumentResponse createDocument(CreateDocumentRequest request) {
-        User user = userRepository.findById(request.userId()).orElseThrow(() ->
+        userRepository.findById(request.userId()).orElseThrow(() ->
                 new UserNotFoundException("User with id " + request.userId() + " not found"));
 
         Document document = new Document(
