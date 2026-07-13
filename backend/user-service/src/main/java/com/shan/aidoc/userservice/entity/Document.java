@@ -18,17 +18,20 @@ public class Document {
 
     private String title;
     private String content;
-    private UUID userId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @CreatedDate
     private LocalDateTime createdAt;
 
     protected Document(){}
 
-    public Document(String title, String content, UUID userId) {
+    public Document(String title, String content, User user) {
         this.title = title;
         this.content = content;
-        this.userId = userId;
+        this.user = user;
         this.createdAt = LocalDateTime.now();
     }
 
@@ -54,12 +57,12 @@ public class Document {
         this.content = content;
     }
 
-    public UUID getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(UUID user) {
-        this.userId = user;
+    public void setUserId(User user) {
+        this.user = user;
     }
 
     public LocalDateTime getCreatedAt() {

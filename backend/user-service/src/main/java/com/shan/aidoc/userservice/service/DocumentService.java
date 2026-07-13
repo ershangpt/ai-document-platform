@@ -10,6 +10,7 @@ import com.shan.aidoc.userservice.repository.UserRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.UUID;
@@ -25,14 +26,15 @@ public class DocumentService {
         this.userRepository = userRepository;
     }
 
+    @Transactional
     public DocumentResponse createDocument(CreateDocumentRequest request) {
-        userRepository.findById(request.userId()).orElseThrow(() ->
+        User user = userRepository.findById(request.userId()).orElseThrow(() ->
                 new UserNotFoundException("User with id " + request.userId() + " not found"));
 
         Document document = new Document(
                 request.title(),
                 request.content(),
-                request.userId()
+                user
         );
 
         Document savedDocument = documentRepository.save(document);
@@ -41,7 +43,7 @@ public class DocumentService {
     }
 
     private DocumentResponse toResponse(Document savedDocument) {
-       return new DocumentResponse(savedDocument.getId(), savedDocument.getTitle(), savedDocument.getContent(), savedDocument.getUserId(), savedDocument.getCreatedAt());
+       return new DocumentResponse(savedDocument.getId(), savedDocument.getTitle(), savedDocument.getContent(), savedDocument.getUser().getId(), savedDocument.getCreatedAt());
     }
 
     public Page<DocumentResponse> getDocuments(Pageable pageable) {
