@@ -85,7 +85,8 @@ public class UserService {
                 user.getId(),
                 user.getFirstName(),
                 user.getLastName(),
-                user.getEmail()
+                user.getEmail(),
+                user.getDocuments()
         );
     }
 
