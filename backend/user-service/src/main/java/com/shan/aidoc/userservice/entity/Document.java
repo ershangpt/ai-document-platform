@@ -2,7 +2,6 @@ package com.shan.aidoc.userservice.entity;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.UuidGenerator;
-import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -23,7 +22,6 @@ public class Document {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @CreatedDate
     private LocalDateTime createdAt;
 
     protected Document(){}
