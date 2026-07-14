@@ -4,7 +4,6 @@ import com.shan.aidoc.userservice.dto.CreateUserRequest;
 import com.shan.aidoc.userservice.dto.DocumentResponse;
 import com.shan.aidoc.userservice.dto.UpdateUserRequest;
 import com.shan.aidoc.userservice.dto.UserResponse;
-import com.shan.aidoc.userservice.entity.Document;
 import com.shan.aidoc.userservice.entity.User;
 import com.shan.aidoc.userservice.exception.DuplicateUserException;
 import com.shan.aidoc.userservice.exception.UserNotFoundException;
@@ -12,6 +11,7 @@ import com.shan.aidoc.userservice.repository.UserRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -103,13 +103,18 @@ public class UserService {
         return users.map(this::toResponse);
     }
 
+    @Transactional(readOnly = true)
     public List<DocumentResponse> getUserDocumentsById(UUID id) {
         User existingUser = userRepository.findById(id)
-                .orElseThrow(() ->
-                        new UserNotFoundException("User with id " + id + " not found"));
+                .orElseThrow(() -> new UserNotFoundException("User with id " + id + " not found"));
 
-        return existingUser.getDocuments().stream().map(savedDocument -> new DocumentResponse(savedDocument.getId(), savedDocument.getTitle(), savedDocument.getContent(), savedDocument.getUser().getId(), savedDocument.getCreatedAt())).toList();
+        return existingUser.getDocuments().stream()
+                .map(savedDocument -> new DocumentResponse(
+                        savedDocument.getId(),
+                        savedDocument.getTitle(),
+                        savedDocument.getContent(),
+                        savedDocument.getUser().getId(),
+                        savedDocument.getCreatedAt()))
+                .toList();
     }
-
-
 }
