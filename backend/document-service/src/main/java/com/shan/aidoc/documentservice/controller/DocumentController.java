@@ -1,8 +1,8 @@
-package com.shan.aidoc.userservice.controller;
+package com.shan.aidoc.documentservice.controller;
 
-import com.shan.aidoc.userservice.dto.CreateDocumentRequest;
-import com.shan.aidoc.userservice.dto.DocumentResponse;
-import com.shan.aidoc.userservice.service.DocumentService;
+import com.shan.aidoc.documentservice.dto.CreateDocumentRequest;
+import com.shan.aidoc.documentservice.dto.DocumentResponse;
+import com.shan.aidoc.documentservice.service.DocumentService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;

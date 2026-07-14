@@ -1,7 +1,6 @@
 package com.shan.aidoc.userservice.service;
 
 import com.shan.aidoc.userservice.dto.CreateUserRequest;
-import com.shan.aidoc.userservice.dto.DocumentResponse;
 import com.shan.aidoc.userservice.dto.UpdateUserRequest;
 import com.shan.aidoc.userservice.dto.UserResponse;
 import com.shan.aidoc.userservice.entity.User;
@@ -101,20 +100,5 @@ public class UserService {
         Page<User> users = userRepository.findByFirstNameContainingIgnoreCase(firstName, pageable);
 
         return users.map(this::toResponse);
-    }
-
-    @Transactional(readOnly = true)
-    public List<DocumentResponse> getUserDocumentsById(UUID id) {
-        User existingUser = userRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException("User with id " + id + " not found"));
-
-        return existingUser.getDocuments().stream()
-                .map(savedDocument -> new DocumentResponse(
-                        savedDocument.getId(),
-                        savedDocument.getTitle(),
-                        savedDocument.getContent(),
-                        savedDocument.getUser().getId(),
-                        savedDocument.getCreatedAt()))
-                .toList();
     }
 }

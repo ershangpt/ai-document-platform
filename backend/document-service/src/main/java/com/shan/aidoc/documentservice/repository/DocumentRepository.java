@@ -1,6 +1,6 @@
-package com.shan.aidoc.userservice.repository;
+package com.shan.aidoc.documentservice.repository;
 
-import com.shan.aidoc.userservice.entity.Document;
+import com.shan.aidoc.documentservice.entity.Document;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;

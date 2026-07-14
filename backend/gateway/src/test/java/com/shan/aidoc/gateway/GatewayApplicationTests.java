@@ -1,10 +1,10 @@
-package com.shan.aidoc.user_service;
+package com.shan.aidoc.gateway;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class UserServiceApplicationTests {
+class GatewayApplicationTests {
 
 	@Test
 	void contextLoads() {

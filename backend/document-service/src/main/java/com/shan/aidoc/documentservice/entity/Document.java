@@ -1,4 +1,4 @@
-package com.shan.aidoc.userservice.entity;
+package com.shan.aidoc.documentservice.entity;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.UuidGenerator;
@@ -18,18 +18,16 @@ public class Document {
     private String title;
     private String content;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+    private UUID userId;
 
     private LocalDateTime createdAt;
 
     protected Document(){}
 
-    public Document(String title, String content, User user) {
+    public Document(String title, String content, UUID userId) {
         this.title = title;
         this.content = content;
-        this.user = user;
+        this.userId = userId;
         this.createdAt = LocalDateTime.now();
     }
 
@@ -55,12 +53,12 @@ public class Document {
         this.content = content;
     }
 
-    public User getUser() {
-        return user;
+    public UUID getUserId() {
+        return userId;
     }
 
-    public void setUserId(User user) {
-        this.user = user;
+    public void setUserId(UUID userId) {
+        this.userId = userId;
     }
 
     public LocalDateTime getCreatedAt() {

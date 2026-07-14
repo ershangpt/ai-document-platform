@@ -1,7 +1,6 @@
 package com.shan.aidoc.userservice.controller;
 
 import com.shan.aidoc.userservice.dto.CreateUserRequest;
-import com.shan.aidoc.userservice.dto.DocumentResponse;
 import com.shan.aidoc.userservice.dto.UpdateUserRequest;
 import com.shan.aidoc.userservice.dto.UserResponse;
 import com.shan.aidoc.userservice.service.UserService;
@@ -67,13 +66,5 @@ public class UserController {
     @GetMapping("/users/search/name")
     public Page<UserResponse> searchByName(@RequestParam String firstName, Pageable pageable) {
         return userService.searchByFirstName(firstName, pageable);
-    }
-
-    @GetMapping("/users/{id}/documents")
-    public ResponseEntity<List<DocumentResponse>> getUserDocuments(@PathVariable UUID id) {
-
-        List<DocumentResponse> docs = userService.getUserDocumentsById(id);
-
-        return ResponseEntity.ok(docs);
     }
 }

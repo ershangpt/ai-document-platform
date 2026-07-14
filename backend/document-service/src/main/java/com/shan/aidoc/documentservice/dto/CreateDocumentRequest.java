@@ -1,4 +1,4 @@
-package com.shan.aidoc.userservice.dto;
+package com.shan.aidoc.documentservice.dto;
 
 import java.util.UUID;
 
