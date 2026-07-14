@@ -1,8 +1,10 @@
 package com.shan.aidoc.userservice.service;
 
 import com.shan.aidoc.userservice.dto.CreateUserRequest;
+import com.shan.aidoc.userservice.dto.DocumentResponse;
 import com.shan.aidoc.userservice.dto.UpdateUserRequest;
 import com.shan.aidoc.userservice.dto.UserResponse;
+import com.shan.aidoc.userservice.entity.Document;
 import com.shan.aidoc.userservice.entity.User;
 import com.shan.aidoc.userservice.exception.DuplicateUserException;
 import com.shan.aidoc.userservice.exception.UserNotFoundException;
@@ -100,4 +102,14 @@ public class UserService {
 
         return users.map(this::toResponse);
     }
+
+    public List<DocumentResponse> getUserDocumentsById(UUID id) {
+        User existingUser = userRepository.findById(id)
+                .orElseThrow(() ->
+                        new UserNotFoundException("User with id " + id + " not found"));
+
+        return existingUser.getDocuments().stream().map(savedDocument -> new DocumentResponse(savedDocument.getId(), savedDocument.getTitle(), savedDocument.getContent(), savedDocument.getUser().getId(), savedDocument.getCreatedAt())).toList();
+    }
+
+
 }
