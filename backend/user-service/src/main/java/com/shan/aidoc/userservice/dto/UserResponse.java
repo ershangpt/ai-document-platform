@@ -9,7 +9,6 @@ public record UserResponse(
         UUID id,
         String firstName,
         String lastName,
-        String email,
-        List<Document> documents
+        String email
 ) {
 }
