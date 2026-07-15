@@ -1,8 +1,6 @@
 # Read Me First
 The following was discovered as part of building this project:
 
-* The original package name 'com.shan.aidoc.document-service' is invalid and this project uses 'com.shan.aidoc.documentservice' instead.
-
 # Getting Started
 
 ### Reference Documentation

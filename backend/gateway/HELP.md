@@ -1,7 +1,6 @@
 # Read Me First
 The following was discovered as part of building this project:
 
-* The original package name 'com.shan.aidoc.user-service' is invalid and this project uses 'com.shan.aidoc.user_service' instead.
 
 # Getting Started
 
