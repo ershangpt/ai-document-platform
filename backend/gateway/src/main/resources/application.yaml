@@ -6,12 +6,15 @@ spring:
     name: gateway
   cloud:
     gateway:
-      routes:
-        - id: users
-          uri: http://localhost:8081
-          predicates:
-            - Path=/api/v1/users/**
-        - id: documents
-          uri: http://localhost:8082
-          predicates:
-            - Path=/api/v1/documents/**
+      server:
+        webflux:
+          routes:
+            - id: user-service
+              uri: lb://USER-SERVICE
+              predicates:
+                - Path=/api/v1/users/**
+
+            - id: document-service
+              uri: lb://DOCUMENT-SERVICE
+              predicates:
+                - Path=/api/v1/documents/**
