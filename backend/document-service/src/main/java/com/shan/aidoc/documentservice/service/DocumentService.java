@@ -6,7 +6,9 @@ import com.shan.aidoc.documentservice.dto.DocumentResponse;
 import com.shan.aidoc.documentservice.dto.UserResponse;
 import com.shan.aidoc.documentservice.entity.Document;
 import com.shan.aidoc.documentservice.exception.UserNotFoundException;
+import com.shan.aidoc.documentservice.producer.DocumentEventPublisher;
 import com.shan.aidoc.documentservice.repository.DocumentRepository;
+import com.shan.aidoc.events.DocumentCreatedEvent;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -17,11 +19,13 @@ public class DocumentService {
 
     private final DocumentRepository documentRepository;
     private final UserServiceClient userServiceClient;
+    private final DocumentEventPublisher documentEventPublisher;
 
-    public DocumentService(DocumentRepository documentRepository, UserServiceClient userServiceClient) {
+    public DocumentService(DocumentRepository documentRepository, UserServiceClient userServiceClient, DocumentEventPublisher documentEventPublisher) {
 
         this.documentRepository = documentRepository;
         this.userServiceClient = userServiceClient;
+        this.documentEventPublisher = documentEventPublisher;
     }
 
     @Transactional
@@ -39,6 +43,15 @@ public class DocumentService {
         );
 
         Document savedDocument = documentRepository.save(document);
+
+        documentEventPublisher.publish(
+                new DocumentCreatedEvent(
+                        savedDocument.getId(),
+                        savedDocument.getUserId(),
+                        savedDocument.getTitle(),
+                        savedDocument.getCreatedAt()
+                )
+        );
 
         return toResponse(savedDocument);
     }

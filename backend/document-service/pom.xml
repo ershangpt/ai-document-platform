@@ -90,6 +90,15 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webflux</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.shan.aidoc</groupId>
+            <artifactId>common-events</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
 	</dependencies>
 
 	<build>
