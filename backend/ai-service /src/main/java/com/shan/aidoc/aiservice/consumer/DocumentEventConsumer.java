@@ -10,7 +10,7 @@ public class DocumentEventConsumer {
 
     @KafkaListener(
             topics = "document-events",
-            groupId = "document-group"
+            groupId = "ai-group"
     )
     public void consume(DocumentCreatedEvent event) {
 
