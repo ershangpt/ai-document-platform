@@ -8,7 +8,7 @@ import com.shan.aidoc.documentservice.entity.Document;
 import com.shan.aidoc.documentservice.exception.UserNotFoundException;
 import com.shan.aidoc.documentservice.producer.DocumentEventPublisher;
 import com.shan.aidoc.documentservice.repository.DocumentRepository;
-import com.shan.aidoc.events.DocumentCreatedEvent;
+import com.shan.aidoc.commonevents.DocumentCreatedEvent;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;

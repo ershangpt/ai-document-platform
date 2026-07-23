@@ -1,7 +1,7 @@
 package com.shan.aidoc.documentservice.producer;
 
 
-import com.shan.aidoc.events.DocumentCreatedEvent;
+import com.shan.aidoc.commonevents.DocumentCreatedEvent;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 

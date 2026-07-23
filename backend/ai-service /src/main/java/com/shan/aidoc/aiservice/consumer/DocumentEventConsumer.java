@@ -1,7 +1,7 @@
 package com.shan.aidoc.aiservice.consumer;
 
 
-import com.shan.aidoc.events.DocumentCreatedEvent;
+import com.shan.aidoc.commonevents.DocumentCreatedEvent;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 

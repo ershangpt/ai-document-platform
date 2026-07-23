@@ -1,4 +1,4 @@
-package com.shan.aidoc.events;
+package com.shan.aidoc.commonevents;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
