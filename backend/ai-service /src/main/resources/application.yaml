@@ -17,6 +17,7 @@ spring:
       properties:
         spring.json.trusted.packages: "com.shan.aidoc.events"
         spring.json.value.default.type: com.shan.aidoc.events.DocumentCreatedEvent
+        spring.json.use.type.headers: false
 
 eureka:
   client:
