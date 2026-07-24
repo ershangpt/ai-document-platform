@@ -2,6 +2,7 @@ package com.shan.aidoc.documentservice.client;
 
 import com.shan.aidoc.documentservice.dto.UserResponse;
 import com.shan.aidoc.documentservice.exception.UserNotFoundException;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.retry.annotation.Retry;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -19,6 +20,7 @@ public class UserServiceClient {
     }
 
     @Retry(name = "userServiceRetry", fallbackMethod = "fallback")
+    @CircuitBreaker(name = "userServiceCircuitBreaker")
     public UserResponse getUserById(UUID id) {
         System.out.println("Calling User Service");
 

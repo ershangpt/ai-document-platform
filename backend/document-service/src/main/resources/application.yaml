@@ -4,6 +4,14 @@ resilience4j:
       userServiceRetry:
         max-attempts: 3
         wait-duration: 2s
+  circuitbreaker:
+    instances:
+      userServiceCircuitBreaker:
+        sliding-window-size: 5
+        minimum-number-of-calls: 5
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 10s
+        permitted-number-of-calls-in-half-open-state: 2
 
 server:
   port: 8084
