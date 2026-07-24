@@ -18,16 +18,20 @@ public class UserServiceClient {
         this.webClient = webClientBuilder.baseUrl("http://USER-SERVICE").build();
     }
 
-    @Retry(name = "userServiceRetry")
+    @Retry(name = "userServiceRetry", fallbackMethod = "fallback")
     public UserResponse getUserById(UUID id) {
+        System.out.println("Calling User Service");
 
-        return webClient
-                .get()
+        return webClient.get()
                 .uri("/api/v1/users/{id}", id)
                 .retrieve()
                 .bodyToMono(UserResponse.class)
                 .block();
+    }
 
+    private UserResponse fallback(UUID id, Exception ex) {
+        System.out.println("Fallback executed");
+        throw new RuntimeException(ex);
     }
 
 }

@@ -17,8 +17,8 @@
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
         </processorPath>
         <module name="user-service" />
-        <module name="ai-service" />
         <module name="gateway" />
+        <module name="ai-service" />
         <module name="document-service" />
       </profile>
     </annotationProcessing>
