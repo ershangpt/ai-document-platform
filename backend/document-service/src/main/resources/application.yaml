@@ -1,3 +1,10 @@
+resilience4j:
+  retry:
+    instances:
+      userServiceRetry:
+        max-attempts: 3
+        wait-duration: 2s
+
 server:
   port: 8084
 

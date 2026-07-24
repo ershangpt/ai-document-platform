@@ -9,7 +9,7 @@
         <module name="common-events" />
         <module name="service-registry" />
       </profile>
-      <profile name="Annotation profile for AI Service" enabled="true">
+      <profile name="Annotation profile for Document Service" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
