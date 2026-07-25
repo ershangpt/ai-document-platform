@@ -12,6 +12,12 @@ resilience4j:
         failure-rate-threshold: 50
         wait-duration-in-open-state: 10s
         permitted-number-of-calls-in-half-open-state: 2
+  ratelimiter:
+    instances:
+      userServiceRateLimiter:
+        limit-for-period: 5
+        limit-refresh-period: 10s
+        timeout-duration: 0
 
 server:
   port: 8084

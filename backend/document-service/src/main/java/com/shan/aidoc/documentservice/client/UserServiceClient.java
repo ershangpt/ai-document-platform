@@ -1,12 +1,11 @@
 package com.shan.aidoc.documentservice.client;
 
 import com.shan.aidoc.documentservice.dto.UserResponse;
-import com.shan.aidoc.documentservice.exception.UserNotFoundException;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import io.github.resilience4j.retry.annotation.Retry;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import java.util.UUID;
 
@@ -19,6 +18,7 @@ public class UserServiceClient {
         this.webClient = webClientBuilder.baseUrl("http://USER-SERVICE").build();
     }
 
+    @RateLimiter(name = "userServiceRateLimiter", fallbackMethod = "fallback")
     @Retry(name = "userServiceRetry", fallbackMethod = "fallback")
     @CircuitBreaker(name = "userServiceCircuitBreaker")
     public UserResponse getUserById(UUID id) {
