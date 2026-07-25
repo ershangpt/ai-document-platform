@@ -4,6 +4,7 @@ import com.shan.aidoc.documentservice.dto.UserResponse;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import io.github.resilience4j.retry.annotation.Retry;
+import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -14,7 +15,7 @@ public class UserServiceClient {
 
     private final WebClient webClient;
 
-    UserServiceClient(WebClient.Builder webClientBuilder) {
+    public UserServiceClient(WebClient.Builder webClientBuilder) {
         this.webClient = webClientBuilder.baseUrl("http://USER-SERVICE").build();
     }
 
@@ -22,18 +23,18 @@ public class UserServiceClient {
     @Retry(name = "userServiceRetry", fallbackMethod = "fallback")
     @CircuitBreaker(name = "userServiceCircuitBreaker")
     public UserResponse getUserById(UUID id) {
-        System.out.println("Calling User Service");
+        String correlationId = MDC.get("correlationId");
 
-        return webClient.get()
+        return webClient
+                .get()
                 .uri("/api/v1/users/{id}", id)
+                .header("X-Correlation-Id", correlationId == null ? "" : correlationId)
                 .retrieve()
                 .bodyToMono(UserResponse.class)
                 .block();
     }
 
     private UserResponse fallback(UUID id, Exception ex) {
-        System.out.println("Fallback executed");
         throw new RuntimeException(ex);
     }
-
 }
