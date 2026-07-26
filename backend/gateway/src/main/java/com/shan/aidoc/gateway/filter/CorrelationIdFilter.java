@@ -36,6 +36,8 @@ public class CorrelationIdFilter implements GlobalFilter, Ordered {
                 .request(mutatedRequest)
                 .build();
 
+        mutatedExchange.getResponse().getHeaders().add(CORRELATION_ID_HEADER, correlationId);
+
         return chain.filter(mutatedExchange)
                 .doFinally(signal -> MDC.remove(CORRELATION_ID_MDC_KEY));
     }
