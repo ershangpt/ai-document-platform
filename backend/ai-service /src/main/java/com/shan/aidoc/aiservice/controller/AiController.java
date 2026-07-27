@@ -4,13 +4,10 @@ import com.shan.aidoc.aiservice.dto.ChatRequest;
 import com.shan.aidoc.aiservice.dto.ChatResponse;
 import com.shan.aidoc.aiservice.service.AiChatService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/ai")
 public class AiController {
 
     private final AiChatService aiChatService;
@@ -19,8 +16,8 @@ public class AiController {
         this.aiChatService = aiChatService;
     }
 
-    @GetMapping("/ai/chat")
-    public ResponseEntity<ChatResponse> getMessage(@RequestBody ChatRequest msg) {
+    @PostMapping("/chat")
+    public ResponseEntity<ChatResponse> chat(@RequestBody ChatRequest msg) {
         return ResponseEntity.ok(new ChatResponse(aiChatService.chat(msg.message())));
     }
 }
