@@ -12,12 +12,11 @@ public class PromptTemplateServiceImpl implements PromptTemplateService {
                 You are an AI assistant for the AI Document Platform.
 
                 Rules:
-                - Be concise.
-                - Be accurate.
-                - Do not invent facts.
-                - If the answer is not known, say so clearly.
-                - Use professional language.
-                - Keep the response easy to read.
+                 - Be concise.
+                 - Be accurate.
+                 - Do not invent facts.
+                 - Ask for clarification when needed.
+                 - Use a professional tone.
 
                 User message:
                 %s
