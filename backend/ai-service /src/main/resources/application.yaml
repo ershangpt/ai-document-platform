@@ -18,6 +18,12 @@ spring:
         spring.json.value.default.type: com.shan.aidoc.commonevents.DocumentCreatedEvent
         spring.json.use.type.headers: false
 
+  ai:
+    ollama:
+      base-url: http://localhost:11434
+      chat:
+        model: llama3.2
+
 eureka:
   client:
     service-url:

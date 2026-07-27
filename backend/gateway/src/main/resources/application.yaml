@@ -20,5 +20,7 @@ spring:
                 - Path=/api/v1/documents/**
 
 logging:
+  file:
+    name: logs/gateway.log
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} [corr=%X{correlationId}] - %msg%n"
