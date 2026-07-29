@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.document.Document;
 import org.springframework.ai.reader.pdf.PagePdfDocumentReader;
 import org.springframework.ai.transformer.splitter.TokenTextSplitter;
+import org.springframework.ai.vectorstore.SearchRequest;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
@@ -58,5 +59,16 @@ public class DocumentServiceImpl implements DocumentService {
         } catch (IOException e) {
             throw new RuntimeException("Failed to read uploaded PDF.", e);
         }
+    }
+
+    @Override
+    public List<Document> search(String query) {
+
+        SearchRequest request = SearchRequest.builder()
+                .query(query)
+                .topK(5)
+                .build();
+
+        return vectorStore.similaritySearch(request);
     }
 }

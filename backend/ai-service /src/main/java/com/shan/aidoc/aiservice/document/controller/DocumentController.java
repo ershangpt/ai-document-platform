@@ -1,7 +1,6 @@
 package com.shan.aidoc.aiservice.document.controller;
 
 import com.shan.aidoc.aiservice.document.service.DocumentService;
-import com.shan.aidoc.aiservice.vector.VectorStoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.document.Document;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +15,6 @@ import java.util.List;
 public class DocumentController {
 
     private final DocumentService documentService;
-    private final VectorStoreService vectorStoreService;
 
     @PostMapping(
             value = "/upload",
@@ -33,6 +31,6 @@ public class DocumentController {
     @GetMapping("/search")
     public List<Document> search(@RequestParam String query) {
 
-        return vectorStoreService.search(query);
+        return documentService.search(query);
     }
 }
