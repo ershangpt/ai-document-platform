@@ -2,12 +2,14 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="common-events" />
         <module name="service-registry" />
+        <module name="ai-service" />
       </profile>
       <profile name="Annotation profile for AI Service" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -18,7 +20,6 @@
         </processorPath>
         <module name="user-service" />
         <module name="gateway" />
-        <module name="ai-service" />
         <module name="document-service" />
       </profile>
     </annotationProcessing>
