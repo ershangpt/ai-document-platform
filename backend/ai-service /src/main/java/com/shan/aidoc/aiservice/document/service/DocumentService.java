@@ -1,13 +1,15 @@
 package com.shan.aidoc.aiservice.document.service;
 
-import org.springframework.ai.document.Document;
+import com.shan.aidoc.aiservice.document.dto.DocumentSearchResponse;
+import com.shan.aidoc.aiservice.document.dto.DocumentUploadResponse;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface DocumentService {
 
-    void upload(MultipartFile file);
+    DocumentUploadResponse upload(MultipartFile file);
 
-    List<Document> search(String query);
+    List<DocumentSearchResponse> search(String query, UUID documentId);
 }
