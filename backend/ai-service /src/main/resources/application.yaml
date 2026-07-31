@@ -5,6 +5,11 @@ spring:
   application:
     name: ai-service
 
+  servlet:
+    multipart:
+      max-file-size: 30MB
+      max-request-size: 30MB
+
   datasource:
     url: jdbc:postgresql://localhost:5432/userdb
     username: shan
