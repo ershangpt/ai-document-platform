@@ -16,6 +16,6 @@ public class RagChatController {
 
     @PostMapping("/ask")
     public ResponseEntity<RagChatResponse> ask(@RequestBody RagChatRequest request) {
-        return ResponseEntity.ok(ragChatService.ask(request.question(), request.documentId()));
+        return ResponseEntity.ok(ragChatService.ask(request.question(), request.documentId(), request.conversationId()));
     }
 }

@@ -4,6 +4,7 @@ import java.util.UUID;
 
 public record RagChatRequest(
         String question,
-        UUID documentId
+        UUID documentId,
+        String conversationId
 ) {
 }

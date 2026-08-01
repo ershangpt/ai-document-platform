@@ -5,6 +5,7 @@ import com.shan.aidoc.aiservice.rag.dto.RagSource;
 import com.shan.aidoc.aiservice.rag.service.RagChatService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.document.Document;
 import org.springframework.ai.vectorstore.SearchRequest;
 import org.springframework.ai.vectorstore.VectorStore;
@@ -21,7 +22,7 @@ public class RagChatServiceImpl implements RagChatService {
     private final ChatClient chatClient;
 
     @Override
-    public RagChatResponse ask(String question, UUID documentId) {
+    public RagChatResponse ask(String question, UUID documentId, String conversationId) {
 
         SearchRequest.Builder builder = SearchRequest.builder()
                 .query(question)
@@ -58,6 +59,7 @@ public class RagChatServiceImpl implements RagChatService {
 
         String answer = chatClient
                 .prompt(prompt)
+                .advisors(a -> a.param(org.springframework.ai.chat.memory.ChatMemory.CONVERSATION_ID, conversationId))
                 .call()
                 .content();
 
