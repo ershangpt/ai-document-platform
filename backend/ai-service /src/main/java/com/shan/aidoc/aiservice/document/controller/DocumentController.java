@@ -5,7 +5,6 @@ import com.shan.aidoc.aiservice.document.dto.DocumentStatusResponse;
 import com.shan.aidoc.aiservice.document.dto.DocumentUploadResponse;
 import com.shan.aidoc.aiservice.document.service.DocumentService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,9 +34,9 @@ public class DocumentController {
     }
 
     @DeleteMapping("/{documentId}")
-    public HttpStatus delete(@PathVariable UUID documentId) {
+    public ResponseEntity<Void> delete(@PathVariable UUID documentId) {
         documentService.delete(documentId);
-        return HttpStatus.NO_CONTENT;
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/status")
