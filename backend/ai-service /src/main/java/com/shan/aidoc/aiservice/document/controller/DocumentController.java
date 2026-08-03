@@ -1,9 +1,11 @@
 package com.shan.aidoc.aiservice.document.controller;
 
 import com.shan.aidoc.aiservice.document.dto.DocumentSearchResponse;
+import com.shan.aidoc.aiservice.document.dto.DocumentStatusResponse;
 import com.shan.aidoc.aiservice.document.dto.DocumentUploadResponse;
 import com.shan.aidoc.aiservice.document.service.DocumentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,5 +32,16 @@ public class DocumentController {
             @RequestParam(required = false) UUID documentId
     ) {
         return ResponseEntity.ok(documentService.search(query, documentId));
+    }
+
+    @DeleteMapping("/{documentId}")
+    public HttpStatus delete(@PathVariable UUID documentId) {
+        documentService.delete(documentId);
+        return HttpStatus.NO_CONTENT;
+    }
+
+    @GetMapping("/status")
+    public ResponseEntity<DocumentStatusResponse> status() {
+        return ResponseEntity.ok(documentService.status());
     }
 }

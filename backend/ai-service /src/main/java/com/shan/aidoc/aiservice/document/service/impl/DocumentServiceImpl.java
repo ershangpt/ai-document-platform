@@ -1,6 +1,7 @@
 package com.shan.aidoc.aiservice.document.service.impl;
 
 import com.shan.aidoc.aiservice.document.dto.DocumentSearchResponse;
+import com.shan.aidoc.aiservice.document.dto.DocumentStatusResponse;
 import com.shan.aidoc.aiservice.document.dto.DocumentUploadResponse;
 import com.shan.aidoc.aiservice.document.service.DocumentService;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,7 @@ import org.springframework.ai.vectorstore.SearchRequest;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,6 +30,7 @@ import java.util.UUID;
 public class DocumentServiceImpl implements DocumentService {
 
     private final VectorStore vectorStore;
+    private final JdbcTemplate jdbcTemplate;
 
     @Override
     public DocumentUploadResponse upload(MultipartFile file) {
@@ -113,5 +116,37 @@ public class DocumentServiceImpl implements DocumentService {
             return number.doubleValue();
         }
         return 0.0d;
+    }
+
+    @Override
+    public void delete(UUID documentId) {
+        vectorStore.delete("source == 'pdf-upload' && documentId == '" + documentId + "'");
+    }
+
+    @Override
+    public DocumentStatusResponse status() {
+
+        Long totalChunks = jdbcTemplate.queryForObject(
+                "SELECT COUNT(*) FROM vector_store WHERE metadata->>'source' = ?",
+                Long.class,
+                "pdf-upload"
+        );
+
+        UUID lastDocumentId = jdbcTemplate.queryForObject(
+                """
+                SELECT (metadata->>'documentId')::uuid
+                FROM vector_store
+                WHERE metadata->>'source' = ?
+                ORDER BY (metadata->>'uploadedAt') DESC NULLS LAST
+                LIMIT 1
+                """,
+                UUID.class,
+                "pdf-upload"
+        );
+
+        return new DocumentStatusResponse(
+                totalChunks != null ? totalChunks : 0L,
+                lastDocumentId
+        );
     }
 }

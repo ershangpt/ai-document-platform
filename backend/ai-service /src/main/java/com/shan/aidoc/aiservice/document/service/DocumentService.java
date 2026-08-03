@@ -1,6 +1,7 @@
 package com.shan.aidoc.aiservice.document.service;
 
 import com.shan.aidoc.aiservice.document.dto.DocumentSearchResponse;
+import com.shan.aidoc.aiservice.document.dto.DocumentStatusResponse;
 import com.shan.aidoc.aiservice.document.dto.DocumentUploadResponse;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -12,4 +13,8 @@ public interface DocumentService {
     DocumentUploadResponse upload(MultipartFile file);
 
     List<DocumentSearchResponse> search(String query, UUID documentId);
+
+    void delete(UUID documentId);
+
+    DocumentStatusResponse status();
 }
