@@ -1,0 +1,144 @@
+services:
+
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: postgres
+
+    environment:
+      POSTGRES_DB: userdb
+      POSTGRES_USER: shan
+      POSTGRES_PASSWORD: password123
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+    networks:
+      - infrastructure
+
+
+  kafka:
+    image: confluentinc/cp-kafka:7.8.0
+    container_name: kafka
+
+    ports:
+      - "9092:9092"
+
+    environment:
+      CLUSTER_ID: MkU3OEVBNTcwNTJENDM2Qk
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:29093
+
+      KAFKA_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://0.0.0.0:9092,CONTROLLER://kafka:29093
+
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
+
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+
+    volumes:
+      - kafka-data:/var/lib/kafka/data
+      - kafka-secrets:/etc/kafka/secrets
+
+    networks:
+      - infrastructure
+
+
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    container_name: kafka-ui
+
+    depends_on:
+      - kafka
+
+    ports:
+      - "8085:8080"
+
+    environment:
+      KAFKA_CLUSTERS_0_NAME: local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:29092
+
+    networks:
+      - infrastructure
+
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+
+    ports:
+      - "11434:11434"
+
+    environment:
+      OLLAMA_HOST: 0.0.0.0:11434
+
+    volumes:
+      - ollama-data:/root/.ollama
+
+    networks:
+      - infrastructure
+
+
+  ai-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    container_name: ai-service
+
+    depends_on:
+      - postgres
+      - kafka
+      - ollama
+
+    ports:
+      - "8086:8086"
+
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/userdb
+      SPRING_DATASOURCE_USERNAME: shan
+      SPRING_DATASOURCE_PASSWORD: password123
+
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://host.docker.internal:8761/eureka/
+
+      SPRING_AI_OLLAMA_BASE_URL: http://ollama:11434
+
+    networks:
+      - infrastructure
+
+
+networks:
+  infrastructure:
+    external: true
+    name: infrastructure_default
+
+
+volumes:
+
+  postgres-data:
+    external: true
+    name: infrastructure_postgres_data
+
+  ollama-data:
+    external: true
+    name: infrastructure_ollama-data
+
+  kafka-data:
+    external: true
+    name: 813ff8434ae5d392c655bfee3238f56d585e9fe6d5157fe330fed9ce4695d186
+
+  kafka-secrets:
+    external: true
+    name: e7baaa663fdc209dcc8a3368de422904a97c9bbdc8086a8f05b8430cf01c30af

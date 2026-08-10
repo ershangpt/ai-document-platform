@@ -1,4 +1,4 @@
-package com.shan.aidoc.documentservice;
+package com.shan.aidoc.aiservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
